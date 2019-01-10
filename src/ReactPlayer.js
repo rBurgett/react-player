@@ -81,7 +81,10 @@ export default class ReactPlayer extends Component {
     this.props.onReady(this)
   }
   getActivePlayer (url) {
-    for (let Player of [ ...customPlayers, ...players ]) {
+    const { disabledPlayers } = this.props
+    const filteredPlayers = players
+      .filter(p => !disabledPlayers.includes(p.displayName))
+    for (let Player of [ ...customPlayers, ...filteredPlayers ]) {
       if (Player.canPlay(url)) {
         return Player
       }
